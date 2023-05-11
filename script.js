@@ -26,6 +26,8 @@ var foodX;
 
 var foodY; 
 
+var score = 0;
+
 //sets the game to running unless the game over conditions are met
 var gameOver = false; 
 
@@ -69,7 +71,7 @@ function update() {
 
     context.fillRect(0, 0, board.width, board.height); 
 
-    context.fillStyle="red"; 
+    context.fillStyle="green"; 
 
     context.fillRect(foodX, foodY, blockSize, blockSize); 
 
@@ -78,13 +80,11 @@ function update() {
 
     if (snakeX == foodX && snakeY == foodY) { 
 
- 
-
         snakeBody.push([foodX, foodY]); 
 
- 
+        placeFood();
 
-        placeFood(); 
+        score + 1;
     } 
 
     //if the snake eats a fruit, grow the length of the snakes body
@@ -99,7 +99,7 @@ function update() {
         snakeBody[0] = [snakeX, snakeY]; 
     } 
 
-    context.fillStyle="lime"; 
+    context.fillStyle= "blue"; 
 
     snakeX += velocityX * blockSize; 
     snakeY += velocityY * blockSize; 
@@ -166,4 +166,8 @@ function placeFood() {
     foodX = Math.floor(Math.random() * cols) * blockSize; 
 
     foodY = Math.floor(Math.random() * rows) * blockSize;
+}
+
+function printScore(score) {
+    document.write(score)
 }
