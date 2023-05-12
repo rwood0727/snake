@@ -6,31 +6,26 @@ var blockSize = 25;
 var rows = 20; 
 var cols = 20; 
 
+//initalizes global variables for use later
 var board; 
 var context;  
-
-//sets the starting size of the snake to 5 blocks 
 var snakeX; 
-
 var snakeY; 
-
+var foodX; 
+var foodY; 
+var score;
 //sets the starting velocity for the snake
 var velocityX = 0; 
-
 var velocityY = 0; 
 
 //creates a list for the snake body, this is used for the coordinates of the snake if it collides or interacts with a fruit
 var snakeBody = [];
 
-var foodX; 
-
-var foodY; 
-
-var score;
 
 //sets the game to running unless the game over conditions are met
 var gameOver = false; 
 
+//used to initialize the canvas when the site is fully loaded
 window.onload = function() {initialize()};
 function initialize() { 
     board = document.getElementById("board"); 
@@ -40,12 +35,13 @@ function initialize() {
     context = board.getContext("2d"); 
     startGame();
 }
+    //listener for when the user presses one of the movement keys
     document.addEventListener("keyup", changeDirection); 
 
-    //calls the updata function every 100 milliseconds
+    //calls the update function every 100 milliseconds
     setInterval(update, 1000/10);
 
-
+//used for the restart button to reset the snake size and position and fruit position
 function startGame() {
     score = 0;
     updateScore(score);
@@ -54,7 +50,7 @@ function startGame() {
     snakeY = blockSize * 5;
     snakeBody=[];
     gameOver = false;
-  //  snakeBody[0]=[snakeX, snakeY];
+    //snakeBody[0]=[snakeX, snakeY];
 }
 
 //if the game over conditions are met, the game will end
@@ -66,11 +62,13 @@ function update() {
        return;
     } 
 
+    //background fill color
     context.fillStyle="black"; 
 
     context.fillRect(0, 0, board.width, board.height); 
 
-    context.fillStyle="green"; 
+    //fruit fill color
+    context.fillStyle="red"; 
 
     context.fillRect(foodX, foodY, blockSize, blockSize); 
 
@@ -99,7 +97,8 @@ function update() {
         snakeBody[0] = [snakeX, snakeY]; 
     } 
 
-    context.fillStyle= "blue"; 
+    //snake fill color
+    context.fillStyle= "lime"; 
 
     snakeX += velocityX * blockSize; 
     snakeY += velocityY * blockSize; 
@@ -114,18 +113,12 @@ function update() {
 
     //game over conditions 
     if (snakeX < 0 || snakeX > cols*blockSize || snakeY < 0 || snakeY > rows*blockSize) { 
-
-        gameOver = true; 
-
         showGameOver();
     } 
 
     for (let i = 0; i < snakeBody.length; i++) { 
 
         if (snakeX == snakeBody[i][0] && snakeY == snakeBody[i][1]) { 
-
-            gameOver = true; 
-
             showGameOver();
         } 
     } 
@@ -168,22 +161,38 @@ function placeFood() {
     foodY = Math.floor(Math.random() * rows) * blockSize;
 }
 
+//updates the score
 function updateScore(score) {
     document.getElementById("score").innerHTML = score;
 }
 
+//called when the reset button is pressed
 function resetGame() {
     hideGameOver();
     startGame();
 
 }
 
+//shows the game over menu when the snake has met one of the game over conditions
 function showGameOver() {
     document.getElementById("game_over").classList.add("show");
     document.getElementById("game_over").classList.remove("hide");
 }
 
+//hides the game over menu
 function hideGameOver() {
     document.getElementById("game_over").classList.remove("show");
     document.getElementById("game_over").classList.add("hide");
+}
+
+//changes the background to gray
+function darkBackground() {
+    document.getElementById("background").classList.remove("light");
+    document.getElementById("background").classList.add("dark");
+}
+
+//changes the background to white
+function lightBackground() {
+    document.getElementById("background").classList.remove("dark");
+    document.getElementById("background").classList.add("light");
 }

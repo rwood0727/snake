@@ -1,12 +1,16 @@
 body {
     font-family: 'Times New Roman', Times, serif;
     text-align: center;
+    background-color: gray;
+    font-size:12px;
 }
 
 .game_over {
     margin: 0 auto;
     width: 50%;
     height: 50px;
+    color: red;
+    font-size : 14px;
 }
 
 .hide{
@@ -17,4 +21,12 @@ body {
 .show{
     display: block;
     visibility: visible;
+}
+
+.dark{
+    background-color: gray;
+}
+
+.light {
+    background-color: white;
 }
