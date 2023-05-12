@@ -1,0 +1,22 @@
+body {
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+}
+
+.game_over {
+    margin: 0 auto;
+    width: 50%;
+    height: 50px;
+    border: 1px red;
+    background-color: blue;
+}
+
+.hide{
+    display: none;
+    visibility: hidden;
+}
+
+.show{
+    display: block;
+    visibility: visible;
+}
