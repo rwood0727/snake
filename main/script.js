@@ -14,6 +14,7 @@ var snakeY;
 var foodX; 
 var foodY; 
 var score;
+var highScore = 0;
 //sets the starting velocity for the snake
 var velocityX = 0; 
 var velocityY = 0; 
@@ -54,7 +55,7 @@ function startGame() {
 }
 
 //if the game over conditions are met, the game will end
-function update() { 
+function update() {    
     if (gameOver) { 
        showGameOver();
        velocityX = 0;
@@ -83,6 +84,13 @@ function update() {
         score += 1;
 
         updateScore(score)
+
+        playEating();
+
+        if (score > highScore) {
+            highScore = score;
+            updateHighScore(highScore);
+        }
     } 
 
     //if the snake eats a fruit, grow the length of the snakes body
@@ -113,15 +121,22 @@ function update() {
 
     //game over conditions 
     if (snakeX < 0 || snakeX > cols*blockSize || snakeY < 0 || snakeY > rows*blockSize) { 
+        gameOver = true;
         showGameOver();
+        playDeath();
     } 
 
     for (let i = 0; i < snakeBody.length; i++) { 
 
         if (snakeX == snakeBody[i][0] && snakeY == snakeBody[i][1]) { 
+            gameOver = true;
             showGameOver();
+            playDeath();
         } 
-    } 
+    }
+    
+    //if the game is over and the score is greater than the previous highscore this will set the highscore to the score
+
 } 
 
 
@@ -154,10 +169,8 @@ function changeDirection(e) {
 
 
 function placeFood() { 
-
     //sets the fruit to be placed in a random location on the canvas
     foodX = Math.floor(Math.random() * cols) * blockSize; 
-
     foodY = Math.floor(Math.random() * rows) * blockSize;
 }
 
@@ -166,11 +179,14 @@ function updateScore(score) {
     document.getElementById("score").innerHTML = score;
 }
 
+function updateHighScore(highScore) {
+    document.getElementById("highscore").innerHTML = highScore;
+}
+
 //called when the reset button is pressed
 function resetGame() {
     hideGameOver();
     startGame();
-
 }
 
 //shows the game over menu when the snake has met one of the game over conditions
@@ -185,7 +201,7 @@ function hideGameOver() {
     document.getElementById("game_over").classList.add("hide");
 }
 
-//changes the background to gray
+//changes the back`ground to gray
 function darkBackground() {
     document.getElementById("background").classList.remove("light");
     document.getElementById("background").classList.add("dark");
@@ -195,4 +211,14 @@ function darkBackground() {
 function lightBackground() {
     document.getElementById("background").classList.remove("dark");
     document.getElementById("background").classList.add("light");
+}
+
+function playEating() {
+    var audio = document.getElementById("audio_eating");
+    audio.play();
+}
+
+function playDeath() {
+    var audio = document.getElementById("audio_death");
+    audio.play();
 }
